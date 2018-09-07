@@ -1,0 +1,27 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello World</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="adbanner">
+      <h1>Ads come over here</h1>
+    </div>
+    <div class="clogo">
+      <img src="/props/images/logo.jpg" alt="The Logo Image comes over here">
+      <div class="navsec">
+
+      <ul class="navbar">
+        <li><a href="#">View Matches</a></li>
+        <li><a href="#">Arrange/ Sponsor</a></li>
+      </ul>
+      <ul class="navbar-right">
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Signup</a></li>
+      </ul>
+    </div>
+    </div> -->
