@@ -1,13 +1,13 @@
 <% include partials/header %>
 <div class="feed">
-  <% if (user) { %>
-    <% if (user.local.email) {%>
+  <!-- <%= console.log(team) %> -->
+
+  <% if (team) { %>
+    <% if (team._id) {%>
   <div class="feeder">
     news feed
     <a href="/unlink/local" class="btn btn-default">Unlink</a>
   </div>
-  <% } else { %>
-    <a href="/signup" class="btn btn-primary">Signup</a>
   <% } } else {%>
     <a href="/signup" class="btn btn-primary">Signup</a>
     <% } %>

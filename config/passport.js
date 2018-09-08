@@ -1,12 +1,13 @@
 var LocalStrategy   = require('passport-local').Strategy;
-var User = require('../app/models/user');
+
 var Team = require('../app/models/team');
 
 
 module.exports = function(passport) {
 
-    passport.serializeUser(function(user, done) {
+    passport.serializeUser(function(team, done) {
         done(null, team.id);
+        // console.log(team.id);
     });
 
     passport.deserializeUser(function(id, done) {
@@ -14,7 +15,6 @@ module.exports = function(passport) {
             done(err, team);
         });
     });
-
 
     passport.use('local-signup', new LocalStrategy({
       teamnameField         : 'team_name',
@@ -30,68 +30,39 @@ module.exports = function(passport) {
       passReqToCallback : true
     },
 
-    function(req, tname, tlocation, tod, tmanname, tmannum, tmanmail, code, tcapname, tcapnum, tcapmail, done) {
+    function(req, team_name, team_location, team_od, team_man_name, team_man_num, team_man_mail, team_code, team_cap_name, team_cap_num, team_cap_mail, done) {
       process.nextTick(function() {
         if (!req.team) {
-          Team.findOne({ 'team_name' :  tmanmail }, function(err, team) {
+          Team.findOne({ 'manager.mail' :  team_man_mail }, function(err, team) {
             if (err)
             return done(err);
             if (team) {
               return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+              // console.log(team.team_name);
             } else {
               var newTeam               = new Team();
-              newTeam.team_name         = tname;
-              newTeam.location          = tlocation;
-              newTeam.date              = tod;
-              newTeam.manager.name      = tmanname;
-              newTeam.manager.number    = tmannum;
-              newTeam.manager.mail      = tmanmail;
-              newTeam.manager.password  = code;
-              newTeam.local.password    = newUser.generateHash(password);
-              newUser.save(function(err) {
+              newTeam.team_name         = team_name;
+              newTeam.location          = team_location;
+              newTeam.date              = team_od;
+              newTeam.manager.name      = team_man_name;
+              newTeam.manager.number    = team_man_num;
+              newTeam.manager.mail      = team_man_mail;
+              newTeam.manager.password  = newTeam.generateHash(team_code);
+              newTeam.captain.name      = team_cap_name;
+              newTeam.captain.number    = team_cap_num;
+              newTeam.captain.mail      = team_cap_mail;
+
+              newTeam.save(function(err) {
                 if (err)
                 throw err;
-                return done(null, newUser);
+                return done(null, newTeam);
               });
             }
-          });
-        } else {
-          var user            = req.user;
-          user.local.email    = email;
-          user.local.password = user.generateHash(password);
-
-          user.save(function(err) {
-            if (err)
-            throw err;
-            return done(null, user);
           });
         }
       });
     }));
 
 
-    passport.use('local-login', new LocalStrategy({
 
-      usernameField : 'email',
-      passwordField : 'password',
-      passReqToCallback : true
-    },
-    function(req, email, password, done) {
-
-      User.findOne({ 'local.email' :  email }, function(err, user) {
-        if (err)
-        return done(err);
-
-        if (!user)
-        return done(null, false, req.flash('loginMessage', 'No user found.'));
-
-
-        if (!user.validPassword(password))
-        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-
-
-        return done(null, user);
-      });
-
-    }));
   };

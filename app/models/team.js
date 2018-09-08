@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 var teamSchema = mongoose.Schema({
   team_name   : {type:String,required:false},
   location    : {type:String,required:false},
-  date        : {type:Date, required:false},
+  date        : {type:String, required:false},
   manager     : {
     name        : {type:String,required:false},
     number      : {type:String,required:false},
